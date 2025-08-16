@@ -122,7 +122,7 @@ export default function MintTokens({ tokenId = 1, onSuccess, showFarmSelection =
           </div>
           <h3 className="text-2xl font-bold text-gray-900 mb-2">Tokens Minted Successfully!</h3>
           <p className="text-gray-600 mb-6">
-            You've successfully minted {amount} {selectedFarm?.name || 'Farm'} token{amount > 1 ? 's' : ''}
+            You&apos;ve successfully minted {amount} {selectedFarm?.name || 'Farm'} token{amount > 1 ? 's' : ''}
           </p>
           <button
             onClick={resetForm}

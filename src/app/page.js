@@ -69,7 +69,7 @@ export default function Home() {
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-4">Transparent Yields</h3>
             <p className="text-gray-700">
-              Track your farm's performance with real-time data, weather updates, and harvest reports.
+              Track your farm&apos;s performance with real-time data, weather updates, and harvest reports.
             </p>
           </div>
 

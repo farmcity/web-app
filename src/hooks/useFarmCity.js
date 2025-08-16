@@ -149,24 +149,43 @@ export function useTokenExists(tokenId) {
 export function useMultipleTokenSupply(tokenIds = []) {
   const farmCityAddress = useFarmCityAddress();
   
-  const results = tokenIds.map(tokenId => {
-    const { data, isLoading, error } = useReadContract({
-      address: farmCityAddress,
-      abi: FARM_CITY_ABI,
-      functionName: 'totalSupply',
-      args: [tokenId],
-      enabled: !!tokenId && farmCityAddress !== '0x0000000000000000000000000000000000000000',
-    });
-    
-    return {
-      tokenId,
-      totalSupply: data ? Number(data) : 0,
-      isLoading,
-      error
-    };
+  // Call hooks at the top level for each possible tokenId
+  const token1Supply = useReadContract({
+    address: farmCityAddress,
+    abi: FARM_CITY_ABI,
+    functionName: 'totalSupply',
+    args: [tokenIds[0]],
+    enabled: !!tokenIds[0] && farmCityAddress !== '0x0000000000000000000000000000000000000000',
+  });
+  
+  const token2Supply = useReadContract({
+    address: farmCityAddress,
+    abi: FARM_CITY_ABI,
+    functionName: 'totalSupply',
+    args: [tokenIds[1]],
+    enabled: !!tokenIds[1] && farmCityAddress !== '0x0000000000000000000000000000000000000000',
+  });
+  
+  const token3Supply = useReadContract({
+    address: farmCityAddress,
+    abi: FARM_CITY_ABI,
+    functionName: 'totalSupply',
+    args: [tokenIds[2]],
+    enabled: !!tokenIds[2] && farmCityAddress !== '0x0000000000000000000000000000000000000000',
   });
 
-  return results;
+  // Map the results back to the expected format
+  const allSupplies = [token1Supply, token2Supply, token3Supply];
+  
+  return tokenIds.map((tokenId, index) => {
+    const supply = allSupplies[index];
+    return {
+      tokenId,
+      totalSupply: supply?.data ? Number(supply.data) : 0,
+      isLoading: supply?.isLoading || false,
+      error: supply?.error
+    };
+  }).filter((_, index) => index < tokenIds.length);
 }
 
 // Hook to get max supply for a specific token ID
@@ -192,22 +211,41 @@ export function useMaxSupply(tokenId) {
 export function useMultipleMaxSupply(tokenIds = []) {
   const farmCityAddress = useFarmCityAddress();
   
-  const results = tokenIds.map(tokenId => {
-    const { data, isLoading, error } = useReadContract({
-      address: farmCityAddress,
-      abi: FARM_CITY_ABI,
-      functionName: 'maxSupplyPerToken',
-      args: [tokenId],
-      enabled: !!tokenId && farmCityAddress !== '0x0000000000000000000000000000000000000000',
-    });
-    
-    return {
-      tokenId,
-      maxSupply: data ? Number(data) : 0,
-      isLoading,
-      error
-    };
+  // Call hooks at the top level for each possible tokenId
+  const token1MaxSupply = useReadContract({
+    address: farmCityAddress,
+    abi: FARM_CITY_ABI,
+    functionName: 'maxSupplyPerToken',
+    args: [tokenIds[0]],
+    enabled: !!tokenIds[0] && farmCityAddress !== '0x0000000000000000000000000000000000000000',
+  });
+  
+  const token2MaxSupply = useReadContract({
+    address: farmCityAddress,
+    abi: FARM_CITY_ABI,
+    functionName: 'maxSupplyPerToken',
+    args: [tokenIds[1]],
+    enabled: !!tokenIds[1] && farmCityAddress !== '0x0000000000000000000000000000000000000000',
+  });
+  
+  const token3MaxSupply = useReadContract({
+    address: farmCityAddress,
+    abi: FARM_CITY_ABI,
+    functionName: 'maxSupplyPerToken',
+    args: [tokenIds[2]],
+    enabled: !!tokenIds[2] && farmCityAddress !== '0x0000000000000000000000000000000000000000',
   });
 
-  return results;
+  // Map the results back to the expected format
+  const allMaxSupplies = [token1MaxSupply, token2MaxSupply, token3MaxSupply];
+  
+  return tokenIds.map((tokenId, index) => {
+    const maxSupply = allMaxSupplies[index];
+    return {
+      tokenId,
+      maxSupply: maxSupply?.data ? Number(maxSupply.data) : 0,
+      isLoading: maxSupply?.isLoading || false,
+      error: maxSupply?.error
+    };
+  }).filter((_, index) => index < tokenIds.length);
 }

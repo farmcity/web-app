@@ -128,7 +128,7 @@ export default function Marketplace() {
                 <span className="text-yellow-800 font-medium">Development Mode</span>
               </div>
               <p className="text-yellow-700 text-sm mt-1">
-                You're connected to a development network (Hardhat). Mock USDT minting is available for testing.
+                You&apos;re connected to a development network (Hardhat). Mock USDT minting is available for testing.
               </p>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-1 gap-6">
