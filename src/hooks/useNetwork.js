@@ -32,7 +32,8 @@ export function useNetwork() {
     addresses,
     isSupported: !!CONTRACT_ADDRESSES[network],
     farmCityAddress: addresses.FARM_CITY,
-    usdtAddress: addresses.USDT
+    usdtAddress: addresses.USDT,
+    stakingAddress: addresses.FARM_CITY_STAKING
   };
 }
 

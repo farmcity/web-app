@@ -3,6 +3,8 @@
 import Navbar from "@/components/layout/Navbar";
 import PortfolioCard from "@/components/dashboard/PortfolioCard";
 import { useUserPortfolio } from "@/hooks/usePortfolio";
+import { useStakingOverview } from "@/hooks/useStaking";
+import UnstakedTokensAlert from "@/components/staking/UnstakedTokensAlert";
 import { useAccount } from 'wagmi';
 
 export default function Portfolio() {
@@ -16,6 +18,14 @@ export default function Portfolio() {
     totalGainsPercent,
     isLoading
   } = useUserPortfolio();
+  
+  // Staking data
+  const stakingData = useStakingOverview();
+
+  const handleStakeClick = (tokenId) => {
+    // This will be handled by the StakeButton component
+    console.log('Open staking for token:', tokenId);
+  };
 
   // Show loading state
   if (isLoading) {
@@ -63,8 +73,14 @@ export default function Portfolio() {
           <p className="text-gray-700 mt-2">Track your farm investments and ERC1155 token holdings</p>
         </div>
 
+        {/* Unstaked Tokens Alert */}
+        <UnstakedTokensAlert 
+          onStakeClick={handleStakeClick}
+          className="mb-8"
+        />
+
         {/* Portfolio Summary */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6 mb-8">
           <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
             <div className="flex items-center justify-between">
               <div>
@@ -92,6 +108,32 @@ export default function Portfolio() {
           <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
             <div className="flex items-center justify-between">
               <div>
+                <p className="text-sm font-medium text-gray-600">Staked Tokens</p>
+                <p className="text-2xl font-bold text-purple-600">{stakingData.totalStaked || 0}</p>
+              </div>
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <span className="text-2xl">🔒</span>
+              </div>
+            </div>
+            <p className="text-sm text-purple-600 mt-2">Earning rewards</p>
+          </div>
+
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Staking Rewards</p>
+                <p className="text-2xl font-bold text-yellow-600">${(stakingData.totalRewards || 0).toFixed(2)}</p>
+              </div>
+              <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                <span className="text-2xl">🌾</span>
+              </div>
+            </div>
+            <p className="text-sm text-yellow-600 mt-2">USDT earned</p>
+          </div>
+
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+            <div className="flex items-center justify-between">
+              <div>
                 <p className="text-sm font-medium text-gray-600">Total Gains</p>
                 <p className={`text-2xl font-bold ${totalGains >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                   {totalGains >= 0 ? '+' : ''}${totalGains.toLocaleString()}
@@ -109,26 +151,14 @@ export default function Portfolio() {
           <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Yield Earned</p>
-                <p className="text-2xl font-bold text-yellow-600">${totalYield.toLocaleString()}</p>
-              </div>
-              <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                <span className="text-2xl">🌾</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-            <div className="flex items-center justify-between">
-              <div>
                 <p className="text-sm font-medium text-gray-600">Holdings</p>
-                <p className="text-2xl font-bold text-purple-600">{portfolioData.length}</p>
+                <p className="text-2xl font-bold text-blue-600">{portfolioData.length}</p>
               </div>
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
                 <span className="text-2xl">🎯</span>
               </div>
             </div>
-            <p className="text-sm text-purple-600 mt-2">Active Farms</p>
+            <p className="text-sm text-blue-600 mt-2">Active Farms</p>
           </div>
         </div>
 

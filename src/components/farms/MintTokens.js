@@ -5,11 +5,13 @@ import { useAccount } from 'wagmi';
 import { useMintPrice, useMintFarmCity, useWaitForMint, useFarmCityAddress } from '@/hooks/useFarmCity';
 import { useUsdtBalance, useUsdtAllowance, useUsdtApprove, useWaitForUsdtTransaction } from '@/hooks/useUSDT';
 import { useMarketplaceData } from '@/hooks/useMarketplace';
+import PostMintStakingPrompt from '@/components/staking/PostMintStakingPrompt';
 
 export default function MintTokens({ tokenId = 1, onSuccess, showFarmSelection = false }) {
   const [selectedFarmId, setSelectedFarmId] = useState(1); // Default to farm ID 1
   const [amount, setAmount] = useState(1);
   const [step, setStep] = useState('mint'); // 'mint', 'approve', 'approving', 'minting', 'success'
+  const [showStakingPrompt, setShowStakingPrompt] = useState(false);
   
   const { address, isConnected } = useAccount();
   const farmCityAddress = useFarmCityAddress();
@@ -46,6 +48,7 @@ export default function MintTokens({ tokenId = 1, onSuccess, showFarmSelection =
   useEffect(() => {
     if (isMintSuccess && step === 'minting') {
       setStep('success');
+      setShowStakingPrompt(true);
       refetchUsdtBalance();
       // Call onSuccess callback if provided (for closing modal)
       if (onSuccess) {
@@ -84,6 +87,7 @@ export default function MintTokens({ tokenId = 1, onSuccess, showFarmSelection =
   const resetForm = () => {
     setStep('mint');
     setAmount(1);
+    setShowStakingPrompt(false);
   };
 
   if (!isConnected) {
@@ -130,6 +134,16 @@ export default function MintTokens({ tokenId = 1, onSuccess, showFarmSelection =
           >
             Mint More Tokens
           </button>
+
+          {/* Staking prompt after successful mint */}
+          {showStakingPrompt && (
+            <PostMintStakingPrompt
+              tokenId={selectedFarmId}
+              amount={amount}
+              farmName={selectedFarm?.name || 'Farm'}
+              onDismiss={() => setShowStakingPrompt(false)}
+            />
+          )}
         </div>
       </div>
     );

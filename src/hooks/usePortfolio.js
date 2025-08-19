@@ -9,44 +9,36 @@ export function useUserPortfolio() {
   const { data: mintPrice } = useMintPrice();
   
   // Define token IDs and farm metadata
-  const tokenIds = [1, 2, 3, 4];
+  const tokenIds = [1, 2, 3];
   const farmMetadata = {
     1: {
-      farmName: "Golden Poultry Ranch",
-      cropType: "Free-Range Chicken",
-      location: "Kentucky, USA",
-      apy: 22.5,
-      nextHarvest: "2024-08-15",
+      farmName: "Chicken Farms",
+      cropType: "Closed House Poultry",
+      location: "Indonesia",
+      apy: 15,
+      nextHarvest: "2025-10-01",
       status: "Active",
-      riskLevel: "Medium"
+      riskLevel: "Low"
     },
     2: {
-      farmName: "Coastal Shrimp Farms",
-      cropType: "Premium Shrimp",
-      location: "Louisiana, USA",
+      farmName: "Shrimp Farms",
+      cropType: "Vannamei Shrimp",
+      location: "Indonesia",
       apy: 28.3,
-      nextHarvest: "2024-09-20",
-      status: "Growing",
+      nextHarvest: "2025-12-31",
+      status: "Active",
       riskLevel: "High"
     },
     3: {
-      farmName: "Tropical Coconut Grove",
-      cropType: "Organic Coconuts",
-      location: "Florida, USA",
+      farmName: "Coconut Plantations",
+      cropType: "Coconut to Copra Production",
+      location: "Indonsesia",
       apy: 16.8,
-      nextHarvest: "2024-08-30",
-      status: "Harvesting",
-      riskLevel: "Low"
+      nextHarvest: "2026-03-01",
+      status: "Initializing",
+      riskLevel: "Medium"
     },
-    4: {
-      farmName: "Heritage Rice Paddies",
-      cropType: "Premium Rice",
-      location: "Arkansas, USA",
-      apy: 14.2,
-      nextHarvest: "2024-09-01",
-      status: "Active",
-      riskLevel: "Low"
-    }
+    
   };
 
   // Get balances for each token ID
@@ -54,7 +46,6 @@ export function useUserPortfolio() {
     1: useFarmCityBalance(1),
     2: useFarmCityBalance(2),
     3: useFarmCityBalance(3),
-    4: useFarmCityBalance(4)
   };
 
   // Check if any data is still loading

@@ -249,3 +249,43 @@ export function useMultipleMaxSupply(tokenIds = []) {
     };
   }).filter((_, index) => index < tokenIds.length);
 }
+
+// Hook to check if operator is approved for all tokens
+export function useFarmCityApprovalForAll(operatorAddress) {
+  const { address } = useAccount();
+  const farmCityAddress = useFarmCityAddress();
+
+  return useReadContract({
+    address: farmCityAddress,
+    abi: FARM_CITY_ABI,
+    functionName: 'isApprovedForAll',
+    args: [address, operatorAddress],
+    enabled: !!address && !!operatorAddress && farmCityAddress !== '0x0000000000000000000000000000000000000000',
+  });
+}
+
+// Hook to approve operator for all tokens
+export function useFarmCitySetApprovalForAll() {
+  const farmCityAddress = useFarmCityAddress();
+  const { writeContract, data: hash, error, isPending } = useWriteContract();
+
+  const setApprovalForAll = async (operatorAddress, approved) => {
+    if (!farmCityAddress || farmCityAddress === '0x0000000000000000000000000000000000000000') {
+      throw new Error('FarmCity contract not deployed');
+    }
+
+    writeContract({
+      address: farmCityAddress,
+      abi: FARM_CITY_ABI,
+      functionName: 'setApprovalForAll',
+      args: [operatorAddress, approved],
+    });
+  };
+
+  return {
+    setApprovalForAll,
+    hash,
+    error,
+    isPending,
+  };
+}

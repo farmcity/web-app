@@ -2,6 +2,9 @@
 
 import Navbar from "@/components/layout/Navbar";
 import { useDashboardData, useRecentActivity, useTopPerformingFarms } from "@/hooks/useDashboard";
+import { useStakingOverview } from "@/hooks/useStaking";
+import UnstakedTokensAlert from "@/components/staking/UnstakedTokensAlert";
+import StakeButton from "@/components/staking/StakeButton";
 import { useAccount } from 'wagmi';
 
 export default function Dashboard() {
@@ -15,6 +18,14 @@ export default function Dashboard() {
   
   const { activities } = useRecentActivity();
   const { farms: topFarms } = useTopPerformingFarms();
+  
+  // Staking data
+  const stakingData = useStakingOverview();
+
+  const handleStakeClick = (tokenId) => {
+    // This will be handled by the StakeButton component
+    console.log('Open staking for token:', tokenId);
+  };
 
   // Show loading state
   if (isLoading) {
@@ -61,8 +72,14 @@ export default function Dashboard() {
           <p className="text-gray-700 mt-2">Monitor your farm investments and track performance</p>
         </div>
 
+        {/* Unstaked Tokens Alert */}
+        <UnstakedTokensAlert 
+          onStakeClick={handleStakeClick}
+          className="mb-8"
+        />
+
         {/* Portfolio Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
             <div className="flex items-center justify-between">
               <div>
@@ -95,14 +112,34 @@ export default function Dashboard() {
           <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Total Yield</p>
-                <p className="text-2xl font-bold text-gray-900">
-                  ${totalYield.toLocaleString()}
+                <p className="text-sm font-medium text-gray-600">Staked Tokens</p>
+                <p className="text-2xl font-bold text-purple-600">{stakingData.totalStaked || 0}</p>
+              </div>
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <span className="text-2xl">🔒</span>
+              </div>
+            </div>
+            <div className="flex items-center mt-4">
+              <span className="text-purple-600 text-sm font-medium">
+                {stakingData.totalUnstaked || 0} unstaked
+              </span>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Staking Rewards</p>
+                <p className="text-2xl font-bold text-yellow-600">
+                  ${(stakingData.totalRewards || 0).toFixed(2)}
                 </p>
               </div>
               <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
                 <span className="text-2xl">🌾</span>
               </div>
+            </div>
+            <div className="flex items-center mt-4">
+              <span className="text-yellow-600 text-sm font-medium">USDT rewards</span>
             </div>
           </div>
         </div>
