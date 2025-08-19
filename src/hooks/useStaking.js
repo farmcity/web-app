@@ -231,7 +231,7 @@ export function useWaitForStaking(hash) {
 // Hook to get comprehensive staking data for a user
 export function useUserStakingData() {
   const { address } = useAccount();
-  const tokenIds = [1, 2, 3, 4];
+  const tokenIds = [1, 2, 3]; // Match portfolio hook token IDs
 
   // Get staking data for each token ID
   const stakingData = tokenIds.map(tokenId => {
@@ -275,7 +275,7 @@ export function useUserStakingData() {
 // Hook to get staking overview for dashboard
 export function useStakingOverview() {
   const userData = useUserStakingData();
-  const tokenIds = [1, 2, 3, 4];
+  const tokenIds = [1, 2, 3]; // Match portfolio hook token IDs
   
   // Get pool data for all tokens
   const poolData = tokenIds.map(tokenId => {

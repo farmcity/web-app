@@ -2,6 +2,7 @@
 
 import { useAccount } from 'wagmi';
 import { useFarmCityBalance, useMintPrice } from '@/hooks/useFarmCity';
+import { useStakedAmount } from '@/hooks/useStaking';
 
 // Hook to get user's portfolio data from smart contracts
 export function useUserPortfolio() {
@@ -41,22 +42,35 @@ export function useUserPortfolio() {
     
   };
 
-  // Get balances for each token ID
+  // Get balances and staked amounts for each token ID
   const balances = {
     1: useFarmCityBalance(1),
     2: useFarmCityBalance(2),
     3: useFarmCityBalance(3),
   };
 
+  const stakedAmounts = {
+    1: useStakedAmount(1),
+    2: useStakedAmount(2),
+    3: useStakedAmount(3),
+  };
+
   // Check if any data is still loading
-  const isAnyLoading = Object.values(balances).some(balance => balance.isLoading) || !mintPrice;
+  const isAnyLoading = Object.values(balances).some(balance => balance.isLoading) || 
+                      Object.values(stakedAmounts).some(staked => staked.isLoading) || 
+                      !mintPrice;
 
   // Create portfolio data from contract balances
   const portfolioData = tokenIds
     .map(tokenId => {
       const balance = balances[tokenId];
+      const stakedAmount = stakedAmounts[tokenId];
       const metadata = farmMetadata[tokenId];
-      const tokensOwned = balance.data ? Number(balance.data) : 0;
+      
+      // Calculate total tokens owned (unstaked + staked)
+      const unstakedTokens = balance.data ? Number(balance.data) : 0;
+      const stakedTokens = stakedAmount.data ? Number(stakedAmount.data) : 0;
+      const tokensOwned = unstakedTokens + stakedTokens;
       
       // Only include tokens the user actually owns
       if (tokensOwned === 0) return null;
