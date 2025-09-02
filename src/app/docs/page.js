@@ -4,7 +4,7 @@ export default function Docs() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
-      
+
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">FarmCity Documentation</h1>
@@ -22,7 +22,7 @@ export default function Docs() {
             </div>
             <div className="prose prose-gray max-w-none">
               <p className="text-gray-600 mb-4">
-                FarmCity enables you to invest in real-world agricultural projects through ERC1155 tokens. 
+                FarmCity enables you to invest in real-world agricultural projects through ERC1155 tokens.
                 Each token represents fractional ownership of a specific farm operation.
               </p>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">How it Works:</h3>
@@ -60,7 +60,7 @@ export default function Docs() {
           </div>
 
           {/* Farm Verification */}
-          <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-100">
+          {/* <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-100">
             <div className="flex items-center mb-4">
               <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
                 <span className="text-purple-600 font-bold">3</span>
@@ -81,13 +81,13 @@ export default function Docs() {
                 <li>• Ongoing monitoring through IoT sensors</li>
               </ul>
             </div>
-          </div>
+          </div> */}
 
           {/* Risk & Returns */}
           <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-100">
             <div className="flex items-center mb-4">
               <div className="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center mr-3">
-                <span className="text-yellow-600 font-bold">4</span>
+                <span className="text-yellow-600 font-bold">3</span>
               </div>
               <h2 className="text-2xl font-semibold text-gray-900">Understanding Risks & Returns</h2>
             </div>
@@ -125,12 +125,12 @@ export default function Docs() {
               Our team is here to help you navigate the world of agricultural DeFi investments.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+              <a href='mailto:admin@farmcity.dev' target="_blank" rel="noopener noreferrer" className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
                 Contact Support
-              </button>
-              <button className="border border-green-600 text-green-600 hover:bg-green-600 hover:text-white px-6 py-3 rounded-lg font-medium transition-colors">
-                Join Community
-              </button>
+              </a>
+              <a href="https://discord.gg/JUtwaB87kx" target="_blank" rel="noopener noreferrer" className="border border-green-600 text-green-600 hover:bg-green-600 hover:text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                Join Discord
+              </a>
             </div>
           </div>
         </div>

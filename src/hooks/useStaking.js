@@ -233,26 +233,51 @@ export function useUserStakingData() {
   const { address } = useAccount();
   const tokenIds = [1, 2, 3]; // Match portfolio hook token IDs
 
-  // Get staking data for each token ID
-  const stakingData = tokenIds.map(tokenId => {
-    const stakedAmount = useStakedAmount(tokenId);
-    const earnedRewards = useEarnedRewards(tokenId);
-    const balance = useFarmCityBalance(tokenId);
-    
-    return {
-      tokenId,
-      stakedAmount: stakedAmount.data ? Number(stakedAmount.data) : 0,
-      earnedRewards: earnedRewards.data ? parseFloat(earnedRewards.data) : 0,
-      balance: balance.data ? Number(balance.data) : 0,
-      isLoading: stakedAmount.isLoading || earnedRewards.isLoading || balance.isLoading,
-      error: stakedAmount.error || earnedRewards.error || balance.error
-    };
-  });
+  // Call hooks at the top level for each token ID
+  const stakedAmount1 = useStakedAmount(tokenIds[0]);
+  const earnedRewards1 = useEarnedRewards(tokenIds[0]);
+  const balance1 = useFarmCityBalance(tokenIds[0]);
+
+  const stakedAmount2 = useStakedAmount(tokenIds[1]);
+  const earnedRewards2 = useEarnedRewards(tokenIds[1]);
+  const balance2 = useFarmCityBalance(tokenIds[1]);
+
+  const stakedAmount3 = useStakedAmount(tokenIds[2]);
+  const earnedRewards3 = useEarnedRewards(tokenIds[2]);
+  const balance3 = useFarmCityBalance(tokenIds[2]);
+
+  // Organize data for each token
+  const stakingData = [
+    {
+      tokenId: tokenIds[0],
+      stakedAmount: stakedAmount1.data ? Number(stakedAmount1.data) : 0,
+      earnedRewards: earnedRewards1.data ? parseFloat(earnedRewards1.data) : 0,
+      balance: balance1.data ? Number(balance1.data) : 0,
+      isLoading: stakedAmount1.isLoading || earnedRewards1.isLoading || balance1.isLoading,
+      error: stakedAmount1.error || earnedRewards1.error || balance1.error
+    },
+    {
+      tokenId: tokenIds[1],
+      stakedAmount: stakedAmount2.data ? Number(stakedAmount2.data) : 0,
+      earnedRewards: earnedRewards2.data ? parseFloat(earnedRewards2.data) : 0,
+      balance: balance2.data ? Number(balance2.data) : 0,
+      isLoading: stakedAmount2.isLoading || earnedRewards2.isLoading || balance2.isLoading,
+      error: stakedAmount2.error || earnedRewards2.error || balance2.error
+    },
+    {
+      tokenId: tokenIds[2],
+      stakedAmount: stakedAmount3.data ? Number(stakedAmount3.data) : 0,
+      earnedRewards: earnedRewards3.data ? parseFloat(earnedRewards3.data) : 0,
+      balance: balance3.data ? Number(balance3.data) : 0,
+      isLoading: stakedAmount3.isLoading || earnedRewards3.isLoading || balance3.isLoading,
+      error: stakedAmount3.error || earnedRewards3.error || balance3.error
+    }
+  ];
 
   // Calculate totals
   const totalStaked = stakingData.reduce((sum, data) => sum + data.stakedAmount, 0);
   const totalRewards = stakingData.reduce((sum, data) => sum + data.earnedRewards, 0);
-  const totalUnstaked = stakingData.reduce((sum, data) => sum + (data.balance - data.stakedAmount), 0);
+  const totalUnstaked = stakingData.reduce((sum, data) => sum + (data.balance), 0);
   const isAnyLoading = stakingData.some(data => data.isLoading);
 
   // Find tokens that are unstaked (have balance but no stake)
@@ -277,18 +302,37 @@ export function useStakingOverview() {
   const userData = useUserStakingData();
   const tokenIds = [1, 2, 3]; // Match portfolio hook token IDs
   
-  // Get pool data for all tokens
-  const poolData = tokenIds.map(tokenId => {
-    const totalStaked = useTotalStaked(tokenId);
-    const rewardRate = useRewardRate(tokenId);
-    
-    return {
-      tokenId,
-      totalStaked: totalStaked.data ? Number(totalStaked.data) : 0,
-      rewardRate: rewardRate.data ? parseFloat(rewardRate.data) : 0,
-      isLoading: totalStaked.isLoading || rewardRate.isLoading
-    };
-  });
+  // Call hooks at the top level for each token ID
+  const totalStaked1 = useTotalStaked(tokenIds[0]);
+  const rewardRate1 = useRewardRate(tokenIds[0]);
+
+  const totalStaked2 = useTotalStaked(tokenIds[1]);
+  const rewardRate2 = useRewardRate(tokenIds[1]);
+
+  const totalStaked3 = useTotalStaked(tokenIds[2]);
+  const rewardRate3 = useRewardRate(tokenIds[2]);
+
+  // Organize pool data for all tokens
+  const poolData = [
+    {
+      tokenId: tokenIds[0],
+      totalStaked: totalStaked1.data ? Number(totalStaked1.data) : 0,
+      rewardRate: rewardRate1.data ? parseFloat(rewardRate1.data) : 0,
+      isLoading: totalStaked1.isLoading || rewardRate1.isLoading
+    },
+    {
+      tokenId: tokenIds[1],
+      totalStaked: totalStaked2.data ? Number(totalStaked2.data) : 0,
+      rewardRate: rewardRate2.data ? parseFloat(rewardRate2.data) : 0,
+      isLoading: totalStaked2.isLoading || rewardRate2.isLoading
+    },
+    {
+      tokenId: tokenIds[2],
+      totalStaked: totalStaked3.data ? Number(totalStaked3.data) : 0,
+      rewardRate: rewardRate3.data ? parseFloat(rewardRate3.data) : 0,
+      isLoading: totalStaked3.isLoading || rewardRate3.isLoading
+    }
+  ];
 
   const isPoolDataLoading = poolData.some(data => data.isLoading);
 

@@ -15,7 +15,7 @@ export function useNetwork() {
       case 31337: // Ganache localhost
         return 'localhost';
       case 4202: // Lisk Sepolia testnet
-        return 'sepolia';
+        return 'liskSepolia';
       case 1135: // Lisk mainnet
         return 'lisk';
       default:

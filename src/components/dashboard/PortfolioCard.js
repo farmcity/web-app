@@ -116,7 +116,7 @@ export default function PortfolioCard({ holding }) {
           </button>
           
           {/* Show quick staking actions */}
-          {unstakedTokens > 0 && (
+          {/* {unstakedTokens > 0 && (
             <StakeButton 
               tokenId={holding.id}
               variant="quick-stake"
@@ -130,7 +130,7 @@ export default function PortfolioCard({ holding }) {
               variant="quick-claim"
               className="text-xs"
             />
-          )}
+          )} */}
           
           <StakeButton 
             tokenId={holding.id}

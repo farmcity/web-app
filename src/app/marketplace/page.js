@@ -17,7 +17,7 @@ export default function Marketplace() {
   const isDevNetwork = chainId && (
     chainId === 31337 || // Hardhat local
     chainId === 1337 ||  // Ganache local  
-    chainId === 11155111 // Sepolia testnet
+    chainId === 4202 // Sepolia testnet
   );
 
   // Show loading state

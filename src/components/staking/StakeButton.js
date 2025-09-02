@@ -50,7 +50,7 @@ export default function StakeButton({ tokenId, variant = 'default', className = 
   const userBalance = balance ? Number(balance) : 0;
   const userStaked = stakedAmount ? Number(stakedAmount) : 0;
   const userRewards = earnedRewards ? parseFloat(earnedRewards) : 0;
-  const availableToStake = userBalance - userStaked;
+  const availableToStake = userBalance;
   const needsApproval = mode === 'stake' && !isApprovedForAll;
 
   // Handle approval success
@@ -185,7 +185,7 @@ export default function StakeButton({ tokenId, variant = 'default', className = 
     <>
       <button
         onClick={() => openModal()}
-        disabled={isDisabled}
+        // disabled={isDisabled}
         className={`bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg font-medium transition-colors ${className}`}
       >
         {getButtonText()}
